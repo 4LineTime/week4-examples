@@ -18,8 +18,9 @@ let iss_location = {
 }
 
 // TODO Extract the latitude value, and log it to the console.
+const issLat = iss_location.iss_position.latitude
 // TODO Extract the longitude value, and log it to the console.
-
+const issLong = iss_location.iss_position.longitude
 
 
 
@@ -37,11 +38,29 @@ let rates = {
 }
 
 // TODO write code to add a new property for Swiss Francs. Symbol is CHF, value is 1.1787.
+rates.CHF = 1.1787
+
+console.log(rates.CHF)
 // TODO if you had 100 Euros, write code to get the exchange rate from the object, then calculate 
 //      the equivalent value in Australian Dollars (AUD)
+
+let walletEuro = 100
+
+let walletAUD = walletEuro * rates.AUD
+
 // TODO write code to identify the currency symbol that has the highest exchange rate compared to Euros.
 //    In other words, identify the property with the largest value. the answer is BRL (Brazilian Real) at 3.8959 BRL to 1 Euro.
+let greatExch = 0
+let greatSymb = ''
+for (let currency in rates) {
+  let rate = rates[currency]
+  if (rate > greatExch){
+    greatExch = rate
+    greatSymb = currency
+  }
 
+}
+console.log(greatSymb)
 
 
 
@@ -56,23 +75,26 @@ let cats_and_owners = [
 ]
 
 // TODO print Gary Oldman's cat's name
+console.log(cats_and_owners[1].cat)
 // TODO Taylor Swift's cat is called 'Meredith'. Write code to add this data to the array.
+cats_and_owners[4] = {name: "Taylor Swift", cat: "Meredith"}
+console.log(cats_and_owners[4].cat)
 // TODO write a loop to print each cat owner, and their cat's name, one per line. Use the forEach style.
+//cats_and_owners.forEach(console.log())
 
+
+cats_and_owners.forEach(printCatPair);
+
+function printCatPair(pair) {
+  let msg = `${pair.name}'s cat's name is ${pair.cat}.`
+  console.log(msg)
+}
 
 
 
 /* d. Use the following JSON object, describing the Nobel Prize winners in 2017.
 Source http://api.nobelprize.org/v1/prize.json?year=2017
 * */
-
-// TODO print the full name of the Literature Nobel laureate.
-// TODO print the ids of each of the Physics Nobel laureates. Your code should still work without modification if a laureate was added, or removed.
-// TODO write code to print the names of all of the prize categories (So your output would start physics, chemistry, medicine... ).
-// TODO write code to print the total number of prize categories
-// TODO write code to count the total number of laureates from 2017. 
-//   have a good look at how the JSON is structured, and think about what loop(s) you'll need to write.
-
 
 let nobel_prize_winners_2017 = {
   "prizes":[
@@ -198,3 +220,53 @@ let nobel_prize_winners_2017 = {
     }
   ]
 }
+
+// TODO print the full name of the Literature Nobel laureate.
+let litLaureateFirstName = nobel_prize_winners_2017.prizes[3].laureates[0].firstname
+let litLaureateLastName = nobel_prize_winners_2017.prizes[3].laureates[0].surname
+console.log(`${litLaureateFirstName} ${litLaureateLastName}`)
+
+// TODO print the ids of each of the Physics Nobel laureates. Your code should still work without modification if a laureate was added, or removed.
+function printphysicsID(key, categoryvar){
+  //console.log('\n'+ categoryvar.category) //prints the category
+  //laureatevar = categoryvar.laureates //creates object of laureates for this category
+  //Object.entries(laureatevar).forEach(([key, laureate]) => {
+  //  console.log(`${laureate.firstname} ${laureate.surname} ID: ${laureate.id}`)}) //iterates over each laureate print first and last name and id
+  
+  if (categoryvar.category == 'physics'){
+    laureatevar = categoryvar.laureates
+    Object.entries(laureatevar).forEach(([key, laureate]) => {
+      console.log(`${laureate.firstname} ${laureate.surname} ID: ${laureate.id}`)})
+  }  
+}
+
+Object.entries(nobel_prize_winners_2017.prizes).forEach(([key, value]) => { //attacomsian.com/blog/javascript-iterate-objects
+  printphysicsID(key, value)
+})
+// TODO write code to print the names of all of the prize categories (So your output would start physics, chemistry, medicine... ).
+
+let categorycount = 0 //counter for categories
+let laureatecount = 0 //counter for laureates
+
+function printLaureateID(key, categoryvar){
+  console.log('\n'+ categoryvar.category) //prints the category
+  categorycount = categorycount +1 //count categories
+  laureatevar = categoryvar.laureates //creates object of laureates for this category
+  Object.entries(laureatevar).forEach(([key, laureate]) => { //iterates over each laureate print first and last name and id
+    console.log(`${laureate.firstname} ${laureate.surname} ID: ${laureate.id}`)
+    laureatecount = laureatecount +1 //count laureates
+    }) 
+}
+
+// TODO write code to print the total number of prize categories
+// TODO write code to count the total number of laureates from 2017. 
+//   have a good look at how the JSON is structured, and think about what loop(s) you'll need to write.
+
+Object.entries(nobel_prize_winners_2017.prizes).forEach(([key, value]) => { //attacomsian.com/blog/javascript-iterate-objects
+  printLaureateID(key, value)
+})
+
+console.log('Number of Categories :' + categorycount)
+console.log('Number of Laureates :' + laureatecount)
+
+

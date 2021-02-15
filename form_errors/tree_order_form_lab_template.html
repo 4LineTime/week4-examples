@@ -63,10 +63,9 @@
     let homeownerHouseNumberInput = document.querySelector('#homeowner-house-number')
     let homeownerStreetNameInput = document.querySelector('#homeowner-street-name')
     let treeTypeSelect = document.querySelector('#tree-type')
+    let cityInput = document.querySelector('#city')
+    let zipInput = document.querySelector('#zipcode')
 
-    // TODO create a variable for city input element
-    // TODO create a variable for zip code input element
-    
     let submitButton = document.querySelector('#submit-order')
 
     let orderSummaryParagraph = document.querySelector('#order-summary')
@@ -77,26 +76,39 @@
         let houseNumber = homeownerHouseNumberInput.value
         let streetName = homeownerStreetNameInput.value
         let treeType = treeTypeSelect.value
-
-        // TODO get the value from the input#city
-        // TODO get the value from the input#zipcode
-
-        // TODO Validate that all six input and select elements have been completed
-
-        // TODO Validate the zipcode is in the range 55001 and 56763. This will check that the zip code is in Minnesota.
-
+        let cityName = cityInput.value
+        let zipcode = zipInput.value        
         let errors = []
         
-        // If a form element has not been completed, add an error message to the errors array (use push)
-
+        if (!name) {
+            errors.push('Enter homeowner name')
+        }
+        if (!houseNumber) {
+            errors.push('Enter housenumber')
+        }
+        if (!streetName) {
+            errors.push('Enter street name')
+        }
+        if (!treeType) {
+            errors.push('Enter tree type')
+        } 
+        if (!cityName) {
+            errors.push('Enter city name')
+        }
+        if(!zipcode) {
+            errors.push('Enter zipcode')
+        }
+        if(zipcode <= 55001 || zipcode >=56763){
+            errors.push('Enter valid Minnesota zipcode')
+        }
         
-        // TODO - If there are any errors after checking all of the elements, 
-        // display an alert with all of the error messages (use join)
-        // and then return from this function to prevent further processing 
+        if (errors.length) {
+            alert(errors.join('\n'))
+            return
+        }
 
-
-        // TODO - If there are no errors, use a template string to display an order summary in the order summary paragraph
-
+        let summary = `A ${treeType} tree will be ordered for ${name} at ${houseNumber} ${streetName}, ${cityName}, MN ${zipcode}.`
+        orderSummaryParagraph.innerHTML = summary
         
     })
 
